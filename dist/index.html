@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1526">
+  <meta name="description" content="여섯 드라이버가 겨루는 크리스마스 얼음 트랙 레이싱 게임.">
+  <title>Mario Kart — Frost Cup</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M3.34 7l17.32 10M3.34 17 20.66 7M9 4l3 3 3-3m-6 16 3-3 3 3M4 10l4.1-1.1L7 4.8m10 14.4-1.1-4.1L20 14M4 14l4.1 1.1L7 19.2m10-14.4-1.1 4.1L20 10"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9H3Zm13-.5a5 5 0 0 1 0 7m2.8-9.8a9 9 0 0 1 0 12.6"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9H3Zm13 0 5 6m0-6-5 6"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8m0-5v5h5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4m0 1c6-5 8 4 15 0v11c-7 4-9-5-15 0"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14m6-14v14" stroke-width="3"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 7h10c3 0 4 3 5 8 .5 3-2 4-4 2l-2-2H8l-2 2c-2 2-4.5 1-4-2 1-5 2-8 5-8Zm0 2v4m-2-2h4m6 0h.01m3 1h.01"/></symbol>
+</svg>
+<header class="topbar">
+  <div class="top-inner">
+    <a class="brand" href="./" aria-label="Mario Kart Frost Cup 홈"><span class="brand-icon"><svg><use href="#i-snow"/></svg></span><span class="wordmark"><b>MARIO KART</b><span>FROST CUP</span></span></a>
+    <div class="top-actions">
+      <button class="top-btn" id="sound" type="button" aria-label="소리 끄기" aria-pressed="true" title="소리 켜기 / 끄기 (M)"><svg><use href="#i-sound"/></svg><span>사운드</span></button>
+      <button class="top-btn" id="restart" type="button" title="레이스 초기화"><svg><use href="#i-reset"/></svg><span>다시 시작</span></button>
+    </div>
+  </div>
+</header>
+<main class="shell">
+  <div class="page-heading">
+    <div><div class="kicker"><span></span> WINTER GRAND PRIX</div><h1>크리스마스 빙하 서킷</h1></div>
+    <div class="meta"><span><svg><use href="#i-snow"/></svg> 빙판 트랙</span><span><svg><use href="#i-flag"/></svg> 3 랩</span></div>
+  </div>
+  <div class="layout">
+    <div class="main-column">
+      <section class="stage" id="stage" tabindex="-1" aria-label="크리스마스 빙하 서킷 게임">
+        <canvas id="game" width="768" height="426" aria-label="여섯 카트가 달리는 얼음 트랙"></canvas>
+        <div class="stage-header">
+          <span class="track-tag"><svg><use href="#i-snow"/></svg> ICE CIRCUIT</span>
+          <div class="stage-right">
+            <span class="lap-tag"><small>LAP</small> <b id="lap">01</b><span>/ 03</span></span>
+            <button id="pause" class="pause-btn" type="button" title="일시 정지 (Esc)" aria-label="일시 정지" hidden><svg><use href="#i-pause"/></svg></button>
+          </div>
+        </div>
+        <div class="menu" id="menu">
+          <div class="menu-inner">
+            <span class="menu-kicker"><span>✦</span> CHRISTMAS SPECIAL <span>✦</span></span>
+            <div class="hero-title" id="menu-title">FROST <em>CUP</em></div>
+            <p id="menu-caption">눈 내리는 서킷에서 펼쳐지는 6인 레이스</p>
+            <button id="start" class="play" type="button"><svg><use href="#i-play"/></svg><span>레이스 시작</span></button>
+            <span id="start-hint" class="start-hint">또는 <kbd>ENTER</kbd> 키</span>
+          </div>
+        </div>
+        <div id="countdown" class="countdown" hidden></div>
+        <div class="drive-hud" id="drive-hud" hidden>
+          <span class="speed"><small>SPEED</small><b id="speed">0</b><small> KM/H</small></span>
+          <span class="item-slot"><small>ITEM</small><b id="item">—</b><kbd>SPACE</kbd></span>
+          <span class="timer"><small>TIME</small><b id="timer">0:00.00</b></span>
+        </div>
+        <div class="touch-controls" id="touch" hidden>
+          <div><button type="button" data-key="ArrowLeft" aria-label="왼쪽">◀</button><button type="button" data-key="ArrowRight" aria-label="오른쪽">▶</button></div>
+          <div><button type="button" data-key="Space" aria-label="아이템">✦</button><button type="button" data-key="ShiftLeft" aria-label="드리프트">↝</button><button type="button" data-key="ArrowDown" aria-label="브레이크">▼</button><button type="button" data-key="ArrowUp" aria-label="가속">▲</button></div>
+        </div>
+      </section>
+      <section class="panel driver-panel" aria-labelledby="driver-title">
+        <div class="panel-heading driver-heading"><div><svg><use href="#i-game"/></svg><h2 id="driver-title">드라이버 선택</h2></div><span>06 DRIVERS</span></div>
+        <div class="drivers" id="drivers"></div>
+      </section>
+    </div>
+    <aside class="sidebar">
+      <section class="panel rank-panel" aria-labelledby="rank-title">
+        <div class="panel-heading"><div><svg><use href="#i-flag"/></svg><h2 id="rank-title">레이스 순위</h2></div><span class="live"><i></i><span id="rank-state">대기 중</span></span></div>
+        <ol id="rankings" class="rankings"></ol>
+      </section>
+      <section class="panel map-panel" aria-labelledby="map-title">
+        <div class="panel-heading"><div><svg><use href="#i-map"/></svg><h2 id="map-title">트랙 미니맵</h2></div><span>03 LAPS</span></div>
+        <div class="map-area"><svg id="map" viewBox="0 0 270 136" role="img" aria-label="서킷과 여섯 카트의 위치"></svg></div>
+      </section>
+      <section class="panel control-panel" aria-labelledby="control-title">
+        <div class="panel-heading"><div><svg><use href="#i-game"/></svg><h2 id="control-title">조작 방법</h2></div></div>
+        <dl><div><dt>가속 / 제동</dt><dd><kbd>↑</kbd><kbd>↓</kbd></dd></div><div><dt>방향 전환</dt><dd><kbd>←</kbd><kbd>→</kbd></dd></div><div><dt>드리프트</dt><dd><kbd>SHIFT</kbd></dd></div><div><dt>아이템 사용</dt><dd><kbd>SPACE</kbd></dd></div></dl>
+      </section>
+    </aside>
+  </div>
+  <footer><span><svg><use href="#i-snow"/></svg> FROST CUP <i></i> WINTER EDITION</span><span>비공식 팬 게임</span></footer>
+</main>
+</body>
+</html>

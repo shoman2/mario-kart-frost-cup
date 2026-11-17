@@ -19,6 +19,6 @@ HTML, CSS, JavaScript로 만든 정적 사이트입니다. 카트, 트랙, 설�
 
 설치 없이 `dist/index.html`을 브라우저에서 열면 됩니다. 웹 서버를 사용하려면 `python3 -m http.server 8000 --directory dist`를 실행한 뒤 `http://localhost:8000`으로 접속하세요.
 
-Vercel은 `dist` 폴더의 파일을 별도 빌드 없이 게시합니다. 연결된 Vercel 프로젝트에 직접 프로덕션 배포하려면 저장소 루트에서 `vercel deploy --prod`를 실행하세요.
+`main`에 푸시하면 GitHub와 연결된 Vercel 프로젝트가 `dist` 폴더의 파일을 별도 빌드 없이 프로덕션에 배포합니다. CLI로 직접 배포하려면 저장소 루트에서 `vercel deploy --prod`를 실행하세요.
 
 비공식 팬 게임입니다.
